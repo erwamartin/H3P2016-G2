@@ -1,27 +1,55 @@
-var player = function(params){
+var player={};
 
-	var _this = this;
-	_this.video = document.querySelector(params.video);
-	_this.video.load();
+player.video=document.getElementById('video');
+player.button=document.getElementById('button');
+player.video.load();
 
-	_this.playPause = function(){
-		if(_this.video.paused){
-			_this.video.play();
-			if(typeof(params.played)=='function'){
-				params.played.call();
-			}
-		}else{
-			_this.video.pause();
-			if(typeof(params.paused)==='function'){
-				params.paused.call();
-			}
-		}
+
+player.playPause = function () {
+	player.button.classList.remove('loading');
+	if(player.video.paused){
+		player.video.play();
+		player.video.classList.add('play');
+		player.button.classList.add('off');
 	}
-
-	_this.video.addEventListener('canplaythrough',function(){
-		if(typeof(params.loaded)==='function'){
-			params.loaded.call(this,_this);
-		}
-	},false);
-
+	else{
+		player.video.pause();
+		player.button.classList.remove('off');
+	}
 }
+
+player.updateProgress = function () {
+	var progressW=this.currentTime*100/this.duration;
+	document.querySelector('.progress').style.width=progressW+'%';
+	
+	var bufferW=this.buffered.end(0)*100/this.duration;
+	document.querySelector('.buffer').style.width=bufferW+'%';
+}
+
+player.setTime = function (e) {
+	//this==e.currentTarget
+	player.video.currentTime=e.offsetX*player.video.duration/this.offsetWidth;
+}
+
+
+player.video.addEventListener('canplaythrough',player.playPause,false);
+player.video.addEventListener('click',player.playPause,false);
+player.button.addEventListener('click',player.playPause,false);
+player.video.addEventListener('timeupdate',player.updateProgress,false);
+document.getElementById('progressBar').addEventListener('click',player.setTime,false);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
