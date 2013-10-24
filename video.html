@@ -32,6 +32,28 @@
   </div>
 
   <script type="text/javascript" src="js/video.js"></script>
+  <script type="text/javascript">
+    var button = document.getElementById('button');
+    var p = new player({
+      video : '#video',
+      loaded : function(player){
+        player.playPause();
+        document.getElementById('video').classList.remove('loading');
+        console.log('loaded');
+      },
+      played : function(){
+        document.getElementById('video').classList.add('play');
+        button.classList.add('off');
+        console.log('played');
+      },
+      paused : function(){
+        button.classList.remove('off');
+        console.log('paused');
+      }
+    });
+    document.getElementById('video').addEventListener('click',p.playPause,false);
+   button.addEventListener('click',p.playPause,false);
+  </script>
   
 </body>
 </html>
