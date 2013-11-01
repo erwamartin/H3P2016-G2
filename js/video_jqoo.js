@@ -5,6 +5,7 @@ var player = {
 		progress : '#progress',
 		buffer : '#control',
 		button : '#button',
+		file : '',
 		loaded : function(){},
 		playing : function(){},
 		pausing : function(){}
@@ -29,7 +30,20 @@ var player = {
 
 	pause : function(){},
 
-	setTime : function(){}
+	setTime : function(){},
+
+	random : function(e){
+		e.preventDefault();
+		$.ajax({
+			url : player.property.file,
+			dataType : 'json',
+			success : function(data){
+				var source = data[Math.floor(Math.random()*data.length)];
+				$(player.property.video).children(0).attr('src',source.src);
+				player.load();
+			}
+		});
+	}
 
 };
 
@@ -37,6 +51,7 @@ player.init({
 	progress : '.progress',
 	buffer : '.buffer',
 	control : '.control',
+	file : 'random.json',
 	loaded : function(){
 		player.play();
 	},
@@ -46,3 +61,4 @@ player.init({
 	}
 });
 player.load();
+$('#random').on('click',player.random);
