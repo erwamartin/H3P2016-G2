@@ -1,21 +1,21 @@
 var player={};
 
-player.video = $('#video');
-player.button = $('#button');
-player.media = document.getElementById('video');
+player.video=$('#video');
+player.button=$('#button');
+player.media=document.getElementById('video');
 player.media.load();
 
 
 player.playPause = function () {
-	player.button.removeClass('loading');
+	$(player.button).removeClass('loading');
 	if(player.media.paused){
 		player.media.play();
-		player.video.addClass('play');
-		player.button.addClass('off');
+		$(player.video).addClass('play');
+		$(player.button).addClass('off');
 	}
 	else{
 		player.media.pause();
-		player.button.removeClass('off');
+		$(player.button).removeClass('off');
 	}
 }
 
@@ -27,24 +27,18 @@ player.updateProgress = function () {
 	$('.buffer').width(bufferW+'%');
 }
 
-player.setTime = function (e) {
-	var $this = $(this);
-	var offsetX = e.pageX-$this.offset().left;
+player.setTime = function(e){
+	var $this=$(this);
+	var offsetX=e.pageX-$this.offset().left;
 	player.media.currentTime=offsetX*player.media.duration/$this.width();
 }
 
 
-player.video
-.on({
-	'canplaythrough' : player.playPause, 
-	'click' : player.playPause,
-})
+$(player.video)
+.on({'canplaythrough' : player.playPause,'click' : player.playPause})
 .bind('timeupdate',player.updateProgress);
-
-player.button.on('click',player.playPause);
 $('#progressBar').on('click',player.setTime);
-
-
+$('#button').on('click',player.playPause);
 
 
 
