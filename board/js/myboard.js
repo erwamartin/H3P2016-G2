@@ -32,3 +32,8 @@ $('#addCard').on('submit',function(e){
 
 	board.record(datas);
 });
+
+$('#addLocation').on('click',function(e){
+	e.preventDefault();
+	localize.getUserLocation();
+});
