@@ -8,6 +8,20 @@ board.init({
 	}
 });
 
+localize.init({
+	map : '#map div',
+	localized : function(position){
+		$('#map').toggleClass('on');
+		localize.render(position);
+		$('.loader').toggleClass('on');
+	},
+	found : function(pos){
+		if(pos){
+			localize.markPos(pos);
+		}
+	}
+});
+
 board.checkout();
 
 $('#addCard').on('submit',function(e){
@@ -36,4 +50,22 @@ $('#addCard').on('submit',function(e){
 $('#addLocation').on('click',function(e){
 	e.preventDefault();
 	localize.getUserLocation();
+	$('.loader').toggleClass('on');
 });
+
+$('#geocoder').on('submit',function(e){
+	e.preventDefault();
+	var address = $('input[name=address]').val();
+	if(!address){
+		return;
+	}
+	localize.find(address);
+});
+
+$('.deleteButton').on('click',function(e){
+	e.preventDefault();
+
+	var key = $(this).data('key');
+	board.delete(key);
+	$(this).parent('div.card').remove();
+})

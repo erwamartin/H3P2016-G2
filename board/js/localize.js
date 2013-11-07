@@ -7,6 +7,7 @@ var localize = {
 		},
 		map : '',
 		localized : function(){},
+		found : function(){},
 	},
 
 	init : function(options){
@@ -36,14 +37,28 @@ var localize = {
 
 		console.log(this.params);
 
-		new google.maps.Map(document.querySelector(this.params.map),settings);
+		this.map = new google.maps.Map(document.querySelector(this.params.map),settings);
+	},
+
+	find : function(address){
+		var geocoder = new google.maps.Geocoder;
+		geocoder.geocode(
+			{
+				'address' : address
+			},
+			function(data,status){
+				if(status=='OK'){
+					var destPos = data[0].geometry.location;
+					localize.params.found.call(this,destPos);
+				}else{
+					localize.params.found.call(this,null);
+				}
+			}
+		);
+	},
+
+	markPos : function(pos){
+		this.map.setCenter(pos);
+		new google.maps.Marker({position : pos, map : this.map});
 	}
 };
-
-localize.init({
-	map : '#map div',
-	localized : function(position){
-		localize.render(position);
-		$('#map').toggleClass('on');
-	}
-});
