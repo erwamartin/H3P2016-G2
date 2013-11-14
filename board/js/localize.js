@@ -49,7 +49,7 @@ var localize = {
 			function(data,status){
 				if(status=='OK'){
 					var destPos = data[0].geometry.location;
-					localize.params.found.call(this,destPos);
+					localize.params.found.call(this,{latitude : destPos.lat(), longitude : destPos.lng()});
 				}else{
 					localize.params.found.call(this,null);
 				}
@@ -58,7 +58,8 @@ var localize = {
 	},
 
 	markPos : function(pos){
-		this.map.setCenter(pos);
-		new google.maps.Marker({position : pos, map : this.map});
+		var position = new google.maps.LatLng(pos.latitude,pos.longitude);
+		this.map.setCenter(position);
+		new google.maps.Marker({position : position, map : this.map});
 	}
 };

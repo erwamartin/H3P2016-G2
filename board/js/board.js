@@ -23,6 +23,8 @@ var board = {
 		div.append(spanDate,spanTexte,aDelete);
 
 		$(this.params.board).append(div);
+
+		this.params.rendered.call(this);
 	},
 
 	checkout : function(){
