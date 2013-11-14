@@ -1,0 +1,9 @@
+CACHE MANIFEST
+
+CACHE:
+css/board.css
+
+NETWORK:
+*
+
+FALLBACK:

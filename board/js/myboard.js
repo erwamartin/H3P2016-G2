@@ -1,3 +1,9 @@
+applicationCache.update(); // Met à jour le manifest
+
+applicationCache.addEventListener('updateReady',function(){
+	applicationCache.swapCache();
+},false);
+
 var datas = {};
 
 board.init({
